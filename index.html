@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хуснутдинова Наиля — AI-решения для обучения и автоматизации</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fbfcee;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f5f7e8;
+            --accent-blue: #3971b8;
+            --accent-blue-light: #5a8fd4;
+            --accent-blue-dark: #2a5a94;
+            --accent-vanilla: #f6e6a5;
+            --accent-green: #c8d69b;
+            --accent-green-light: #d4e0ad;
+            --text-primary: #343b1b;
+            --text-secondary: #5a6340;
+            --text-muted: #8a9270;
+            --border-subtle: rgba(57, 113, 184, 0.12);
+            --shadow-soft: rgba(57, 113, 184, 0.08);
+            --shadow-medium: rgba(57, 113, 184, 0.15);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+            --radius-xl: 40px;
+            --radius-pill: 100px;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-card: #0f3460;
+            --bg-card-hover: #1a4a7a;
+            --accent-blue: #5a8fd4;
+            --accent-blue-light: #7ab8e8;
+            --accent-blue-dark: #3d6fa3;
+            --accent-vanilla: #e8d5a3;
+            --accent-green: #8fb86e;
+            --accent-green-light: #a3cc82;
+            --text-primary: #f0f0f0;
+            --text-secondary: #b0b8c8;
+            --text-muted: #7a8298;
+            --border-subtle: rgba(90, 143, 212, 0.15);
+            --shadow-soft: rgba(0, 0, 0, 0.2);
+            --shadow-medium: rgba(0, 0, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; line-height: 1.2; }
+        .font-comfortaa { font-family: 'Comfortaa', cursive; }
+
+        .floating-shapes {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+        .shape {
+            position: absolute; border-radius: 50%; opacity: 0.15;
+            animation: float 20s infinite ease-in-out;
+        }
+        .shape-1 { width: 400px; height: 400px; background: var(--accent-blue); top: -150px; right: -100px; animation-delay: 0s; }
+        .shape-2 { width: 300px; height: 300px; background: var(--accent-green); bottom: 5%; left: -100px; animation-delay: -5s; animation-duration: 25s; }
+        .shape-3 { width: 200px; height: 200px; background: var(--accent-vanilla); top: 40%; right: 15%; animation-delay: -10s; animation-duration: 18s; }
+        .shape-4 { width: 150px; height: 150px; background: var(--accent-blue-light); bottom: 25%; right: 25%; animation-delay: -15s; animation-duration: 22s; }
+        [data-theme="dark"] .shape { opacity: 0.08; }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 10px) scale(1.02); }
+        }
+
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(251, 252, 238, 0.9); backdrop-filter: blur(20px);
+            padding: 16px 0; transition: all 0.3s ease, background-color 0.5s ease;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        [data-theme="dark"] nav { background: rgba(26, 26, 46, 0.9); }
+        nav.scrolled { box-shadow: 0 4px 30px var(--shadow-soft); padding: 12px 0; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.5rem; color: var(--accent-blue); text-decoration: none; transition: transform 0.3s ease; }
+        .logo:hover { transform: scale(1.05); }
+        .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; font-size: 0.95rem; position: relative; transition: color 0.3s ease; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent-blue); border-radius: 2px; transition: width 0.3s ease; }
+        .nav-links a:hover { color: var(--accent-blue); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-pill);
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            background: var(--bg-card-hover);
+            border-color: var(--accent-blue);
+        }
+
+        .mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        .mobile-menu-btn span { display: block; width: 24px; height: 2px; background: var(--text-primary); margin: 5px 0; border-radius: 2px; transition: all 0.3s ease; }
+
+        section { position: relative; z-index: 1; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 80px; padding-bottom: 60px; }
+        .hero-content { max-width: 800px; }
+        .hero-name { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: clamp(2.5rem, 5vw, 4.5rem); color: var(--text-primary); margin-bottom: 8px; letter-spacing: -1px; }
+        .hero-name .highlight { color: var(--accent-blue); position: relative; }
+        .hero-name .highlight::after { content: ''; position: absolute; bottom: 4px; left: 0; width: 100%; height: 12px; background: var(--accent-green); border-radius: 4px; z-index: -1; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-card); color: var(--accent-green); padding: 8px 20px; border-radius: var(--radius-pill); font-size: 0.9rem; font-weight: 500; margin-bottom: 24px; border: 1px solid var(--border-subtle); animation: fadeInUp 0.6s ease; }
+        .hero-badge .dot { width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+        .hero h1 { font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--text-secondary); margin-bottom: 20px; font-weight: 600; animation: fadeInUp 0.6s ease 0.1s both; }
+        .hero-subtitle { font-size: clamp(1.1rem, 2vw, 1.4rem); color: var(--text-muted); margin-bottom: 32px; max-width: 600px; animation: fadeInUp 0.6s ease 0.2s both; }
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 12px; animation: fadeInUp 0.6s ease 0.3s both; }
+        .hero-tag { background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-secondary); padding: 10px 24px; border-radius: var(--radius-pill); font-weight: 500; font-size: 0.95rem; transition: all 0.3s ease; }
+        .hero-tag:hover { background: var(--bg-card-hover); border-color: var(--accent-blue); color: var(--accent-blue); transform: translateY(-2px); box-shadow: 0 8px 20px var(--shadow-soft); }
+        .hero-cta { margin-top: 40px; animation: fadeInUp 0.6s ease 0.4s both; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--accent-blue); color: #fff; padding: 16px 36px; border-radius: var(--radius-pill); text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s ease; border: none; cursor: pointer; box-shadow: 0 4px 20px rgba(57, 113, 184, 0.3); }
+        .btn-primary:hover { background: var(--accent-blue-dark); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(57, 113, 184, 0.4); }
+        .btn-primary svg { transition: transform 0.3s ease; }
+        .btn-primary:hover svg { transform: translateX(4px); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-label { display: inline-block; background: var(--bg-card); color: var(--accent-vanilla); padding: 6px 18px; border-radius: var(--radius-pill); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; border: 1px solid var(--border-subtle); }
+        .section-title { font-size: clamp(2rem, 4vw, 3rem); color: var(--text-primary); margin-bottom: 12px; }
+        .section-subtitle { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        .stack-section { padding: 100px 0; background: var(--bg-secondary); border-radius: var(--radius-xl) var(--radius-xl) 0 0; margin-top: -40px; position: relative; z-index: 2; }
+        .stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .stack-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 28px 24px; text-align: center; transition: all 0.4s ease; cursor: default; position: relative; overflow: hidden; }
+        .stack-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--accent-blue); transform: scaleX(0); transition: transform 0.4s ease; }
+        .stack-card:hover::before { transform: scaleX(1); }
+        .stack-card:hover { border-color: var(--accent-blue); transform: translateY(-5px); box-shadow: 0 20px 40px var(--shadow-soft); background: var(--bg-card-hover); }
+        .stack-icon { width: 56px; height: 56px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 1.8rem; transition: all 0.3s ease; background: var(--bg-secondary); }
+        .stack-card:hover .stack-icon { transform: scale(1.1); }
+        .stack-name { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 1.1rem; margin-bottom: 8px; color: var(--text-primary); }
+        .stack-desc { font-size: 0.85rem; color: var(--text-muted); opacity: 0; transform: translateY(10px); transition: all 0.3s ease; }
+        .stack-card:hover .stack-desc { opacity: 1; transform: translateY(0); }
+        .stack-footer { text-align: center; margin-top: 40px; padding: 20px; background: var(--bg-card); border-radius: var(--radius-md); font-style: italic; color: var(--text-muted); border: 1px solid var(--border-subtle); }
+
+        .whatido-section { padding: 100px 0; background: var(--bg-primary); }
+        .whatido-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .whatido-card { background: var(--bg-card); border-radius: var(--radius-lg); padding: 40px 30px; text-align: center; transition: all 0.4s ease; border: 1px solid var(--border-subtle); }
+        .whatido-card:hover { border-color: var(--accent-blue); transform: translateY(-8px); box-shadow: 0 25px 50px var(--shadow-soft); background: var(--bg-card-hover); }
+        .whatido-icon { width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2rem; transition: all 0.3s ease; }
+        .whatido-card:nth-child(1) .whatido-icon { background: rgba(246, 230, 165, 0.3); color: var(--accent-vanilla); }
+        .whatido-card:nth-child(2) .whatido-icon { background: rgba(200, 214, 155, 0.3); color: var(--accent-green); }
+        .whatido-card:nth-child(3) .whatido-icon { background: rgba(57, 113, 184, 0.15); color: var(--accent-blue); }
+        [data-theme="dark"] .whatido-card:nth-child(1) .whatido-icon { background: rgba(232, 213, 163, 0.15); }
+        [data-theme="dark"] .whatido-card:nth-child(2) .whatido-icon { background: rgba(143, 184, 110, 0.15); }
+        [data-theme="dark"] .whatido-card:nth-child(3) .whatido-icon { background: rgba(90, 143, 212, 0.15); }
+        .whatido-card:hover .whatido-icon { transform: scale(1.1) rotate(-5deg); }
+        .whatido-title { font-size: 1.4rem; margin-bottom: 16px; color: var(--text-primary); }
+        .whatido-list { list-style: none; text-align: left; }
+        .whatido-list li { padding: 8px 0; padding-left: 24px; position: relative; font-size: 0.95rem; color: var(--text-muted); }
+        .whatido-list li::before { content: '✦'; position: absolute; left: 0; color: var(--accent-blue); font-weight: bold; }
+
+        .cases-section { padding: 100px 0; background: var(--bg-secondary); }
+        .cases-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .case-card { background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; transition: all 0.4s ease; border: 1px solid var(--border-subtle); }
+        .case-card:hover { border-color: var(--accent-blue); transform: translateY(-5px); box-shadow: 0 25px 50px var(--shadow-medium); background: var(--bg-card-hover); }
+        .case-visual { width: 100%; height: 180px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-light)); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .case-visual::before { content: ''; position: absolute; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%); animation: rotate 20s linear infinite; }
+        [data-theme="dark"] .case-visual::before { background: radial-gradient(circle, rgba(90, 143, 212, 0.1) 0%, transparent 70%); }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .case-visual-icon { font-size: 3.5rem; z-index: 1; position: relative; }
+        .case-content { padding: 28px; }
+        .case-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+        .case-tag { background: var(--bg-secondary); color: var(--accent-blue); padding: 4px 14px; border-radius: var(--radius-pill); font-size: 0.8rem; font-weight: 600; border: 1px solid var(--border-subtle); }
+        .case-title { font-size: 1.3rem; margin-bottom: 12px; color: var(--text-primary); }
+        .case-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px; line-height: 1.6; }
+        .case-metrics { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
+        .case-metric { background: var(--bg-secondary); padding: 10px 18px; border-radius: var(--radius-sm); text-align: center; border: 1px solid var(--border-subtle); }
+        .case-metric-value { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--accent-blue); display: block; }
+        .case-metric-label { font-size: 0.75rem; color: var(--text-muted); }
+        .case-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-blue); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; }
+        .case-link:hover { color: var(--accent-vanilla); gap: 12px; }
+        .case-link svg { transition: transform 0.3s ease; }
+        .case-link:hover svg { transform: translateX(4px); }
+        .case-nda { display: inline-flex; align-items: center; gap: 8px; background: var(--bg-secondary); color: var(--accent-green); padding: 10px 18px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 500; border: 1px solid var(--border-subtle); }
+        .case-details { max-height: 0; overflow: hidden; transition: max-height 0.5s ease, padding 0.5s ease; }
+        .case-details.open { max-height: 600px; padding-top: 16px; }
+        .case-details-text { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; padding: 16px; background: var(--bg-secondary); border-radius: var(--radius-md); border: 1px solid var(--border-subtle); }
+        .case-details-text strong { color: var(--text-secondary); }
+        .case-toggle { background: none; border: 1px solid var(--accent-blue); color: var(--accent-blue); padding: 8px 20px; border-radius: var(--radius-pill); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease; margin-bottom: 12px; }
+        .case-toggle:hover { background: var(--accent-blue); color: #fff; }
+
+        .other-section { padding: 80px 0; background: var(--bg-primary); }
+        .other-card { background: var(--bg-card); border: 2px dashed var(--border-subtle); border-radius: var(--radius-lg); padding: 50px 40px; text-align: center; max-width: 800px; margin: 0 auto; transition: all 0.4s ease; }
+        .other-card:hover { border-color: var(--accent-blue); background: var(--bg-card-hover); box-shadow: 0 20px 40px var(--shadow-soft); }
+        .other-icon { font-size: 3rem; margin-bottom: 20px; }
+        .other-title { font-size: 1.5rem; margin-bottom: 16px; color: var(--text-primary); }
+        .other-text { color: var(--text-muted); font-size: 1rem; line-height: 1.7; max-width: 600px; margin: 0 auto; }
+
+        .about-section { padding: 100px 0; background: var(--bg-secondary); }
+        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .about-text { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); }
+        .about-text p { margin-bottom: 20px; }
+        .about-text strong { color: var(--text-secondary); }
+
+        .contact-section { padding: 100px 0 60px; background: var(--bg-primary); text-align: center; }
+        .contact-card { background: var(--bg-card); border-radius: var(--radius-xl); padding: 60px 40px; max-width: 600px; margin: 0 auto; box-shadow: 0 20px 60px var(--shadow-soft); transition: all 0.4s ease; border: 1px solid var(--border-subtle); }
+        .contact-card:hover { transform: translateY(-5px); box-shadow: 0 30px 80px var(--shadow-medium); border-color: var(--accent-blue); }
+        .contact-icon { width: 80px; height: 80px; background: var(--accent-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 2rem; color: #fff; transition: all 0.3s ease; }
+        .contact-card:hover .contact-icon { background: var(--accent-green); color: var(--text-primary); transform: rotate(10deg) scale(1.1); }
+        .contact-title { font-size: 2rem; margin-bottom: 12px; color: var(--text-primary); }
+        .contact-text { color: var(--text-muted); margin-bottom: 32px; }
+        .contact-email { display: inline-flex; align-items: center; gap: 12px; background: var(--accent-blue); color: #fff; padding: 18px 36px; border-radius: var(--radius-pill); text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(57, 113, 184, 0.3); }
+        .contact-email:hover { background: var(--accent-blue-dark); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(57, 113, 184, 0.4); }
+
+        footer { background: var(--bg-secondary); color: var(--text-muted); padding: 40px 0; text-align: center; border-top: 1px solid var(--border-subtle); }
+        footer p { font-size: 0.9rem; }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 968px) {
+            .whatido-grid { grid-template-columns: 1fr; }
+            .cases-grid { grid-template-columns: 1fr; }
+            .about-content { grid-template-columns: 1fr; text-align: center; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+        }
+        @media (max-width: 640px) {
+            .hero-name { font-size: 2rem; }
+            .hero h1 { font-size: 1.3rem; }
+            .stack-grid { grid-template-columns: repeat(2, 1fr); }
+            .section-header { margin-bottom: 40px; }
+        }
+
+        .mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 999; padding: 100px 40px; flex-direction: column; gap: 30px; align-items: center; }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--text-primary); text-decoration: none; }
+        .mobile-menu-close { position: absolute; top: 24px; right: 24px; background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--text-primary); }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()">&times;</button>
+        <a href="#stack" onclick="toggleMobileMenu()">Стек</a>
+        <a href="#whatido" onclick="toggleMobileMenu()">Что я делаю</a>
+        <a href="#cases" onclick="toggleMobileMenu()">Кейсы</a>
+        <a href="#about" onclick="toggleMobileMenu()">Обо мне</a>
+        <a href="#contact" onclick="toggleMobileMenu()">Контакты</a>
+    </div>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Хуснутдинова Наиля</a>
+            <ul class="nav-links">
+                <li><a href="#stack">Стек</a></li>
+                <li><a href="#whatido">Что я делаю</a></li>
+                <li><a href="#cases">Кейсы</a></li>
+                <li><a href="#about">Обо мне</a></li>
+                <li><a href="#contact">Контакты</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()" aria-label="Переключить тему">☀️</button></li>
+            </ul>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-name">Хуснутдинова <span class="highlight">Наиля</span></div>
+                <div class="hero-badge"><span class="dot"></span>Открыта к новым проектам</div>
+                <h1><span class="font-comfortaa highlight">Solo</span>-разработка <span class="font-comfortaa highlight">AI-решений</span> для обучения и автоматизации</h1>
+                <p class="hero-subtitle">От методических промптов до платформ с ROI 4331%. Промпт-инжиниринг, вайбкодинг и AI-агенты — всё в одном флаконе.</p>
+                <div class="hero-tags">
+                    <span class="hero-tag">Промпт-инжиниринг</span>
+                    <span class="hero-tag">Вайбкодинг</span>
+                    <span class="hero-tag">AI-агенты</span>
+                </div>
+                <div class="hero-cta">
+                    <a href="#cases" class="btn-primary">
+                        Смотреть кейсы
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stack-section" id="stack">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Инструменты</span>
+                <h2 class="section-title">Мой стек</h2>
+                <p class="section-subtitle">Инструменты, которые превращают идеи в работающие продукты</p>
+            </div>
+            <div class="stack-grid">
+                <div class="stack-card reveal">
+                    <div class="stack-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                    <div class="stack-name">ChatGPT</div>
+                    <div class="stack-desc">Системные промпты и быстрые прототипы</div>
+                </div>
+                <div class="stack-card reveal">
+                    <div class="stack-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+                    <div class="stack-name">Claude</div>
+                    <div class="stack-desc">Длинные контексты и анализ</div>
+                </div>
+                <div class="stack-card reveal">
+                    <div class="stack-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+                    <div class="stack-name">Perplexity</div>
+                    <div class="stack-desc">Исследования и верификация</div>
+                </div>
+                <div class="stack-card reveal">
+                    <div class="stack-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg></div>
+                    <div class="stack-name">Qwen / GLM / Kimi</div>
+                    <div class="stack-desc">Мультиязычные задачи и альтернативные модели</div>
+                </div>
+                <div class="stack-card reveal">
+                    <div class="stack-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+                    <div class="stack-name">Base44</div>
+                    <div class="stack-desc">Вайбкодинг платформ и приложений</div>
+                </div>
+                <div class="stack-card reveal">
+                    <div class="stack-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+                    <div class="stack-name">iSpring</div>
+                    <div class="stack-desc">Интерактивный контент для обучения</div>
+                </div>
+                <div class="stack-card reveal">
+                    <div class="stack-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+                    <div class="stack-name">Canva</div>
+                    <div class="stack-desc">Визуальные материалы</div>
+                </div>
+                <div class="stack-card reveal">
+                    <div class="stack-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+                    <div class="stack-name">Trello</div>
+                    <div class="stack-desc">Управление проектами</div>
+                </div>
+                <div class="stack-card reveal">
+                    <div class="stack-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+                    <div class="stack-name">Gamma</div>
+                    <div class="stack-desc">AI-презентации</div>
+                </div>
+                <div class="stack-card reveal">
+                    <div class="stack-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                    <div class="stack-name">n8n</div>
+                    <div class="stack-desc">Автоматизация и интеграция</div>
+                </div>
+                <div class="stack-card reveal">
+                    <div class="stack-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+                    <div class="stack-name">Telegram Bot API</div>
+                    <div class="stack-desc">Боты и коммуникация</div>
+                </div>
+            </div>
+            <div class="stack-footer reveal">Это мой базис, но я всегда рада узнать и освоить что-то новое</div>
+        </div>
+    </section>
+
+    <section class="whatido-section" id="whatido">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Экспертиза</span>
+                <h2 class="section-title">Что я делаю</h2>
+                <p class="section-subtitle">Три направления, которые покрывают весь цикл AI-разработки</p>
+            </div>
+            <div class="whatido-grid">
+                <div class="whatido-card reveal">
+                    <div class="whatido-icon">✍️</div>
+                    <h3 class="whatido-title">Промпт-инжиниринг</h3>
+                    <ul class="whatido-list">
+                        <li>Методически выверенные промпты для обучения</li>
+                        <li>Конструкторы промптов для преподавателей</li>
+                        <li>Системные промпты для бизнес-задач</li>
+                        <li>Библиотеки промптов для AI-агентов</li>
+                    </ul>
+                </div>
+                <div class="whatido-card reveal">
+                    <div class="whatido-icon">💻</div>
+                    <h3 class="whatido-title">Вайбкодинг</h3>
+                    <ul class="whatido-list">
+                        <li>Полноценные веб-платформы без классического кода</li>
+                        <li>EdTech-приложения с геймификацией</li>
+                        <li>Трекеры и инструменты продуктивности</li>
+                        <li>Интерактивные конструкторы</li>
+                    </ul>
+                </div>
+                <div class="whatido-card reveal">
+                    <div class="whatido-icon">🤖</div>
+                    <h3 class="whatido-title">AI-агенты</h3>
+                    <ul class="whatido-list">
+                        <li>Автоматизация коммуникации и процессов</li>
+                        <li>Telegram-боты с ИИ-слоем</li>
+                        <li>Интеграция n8n + LLM API</li>
+                        <li>Архитектура и проектная документация</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cases-section" id="cases">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Портфолио</span>
+                <h2 class="section-title">Кейсы</h2>
+                <p class="section-subtitle">Реальные проекты с метриками и результатами</p>
+            </div>
+            <div class="cases-grid">
+                <div class="case-card reveal">
+                    <div class="case-visual"><span class="case-visual-icon">📚</span></div>
+                    <div class="case-content">
+                        <div class="case-tags"><span class="case-tag">Base44</span><span class="case-tag">Vibe Coding</span><span class="case-tag">AI-агент</span><span class="case-tag">EdTech</span></div>
+                        <h3 class="case-title">Language Trainer</h3>
+                        <p class="case-desc">Платформа для тренировки лексики с 8 форматами активностей и встроенным ИИ-агентом для персонализированных диалогов.</p>
+                        <div class="case-metrics">
+                            <div class="case-metric"><span class="case-metric-value">58</span><span class="case-metric-label">учеников</span></div>
+                            <div class="case-metric"><span class="case-metric-value">2</span><span class="case-metric-label">учителя</span></div>
+                            <div class="case-metric"><span class="case-metric-value">8</span><span class="case-metric-label">форматов заданий</span></div>
+                        </div>
+                        <button class="case-toggle" onclick="toggleCase(this)">Подробнее</button>
+                        <div class="case-details">
+                            <div class="case-details-text">
+                                <strong>Что делала:</strong> Спроектировала и собрала веб-платформу для тренировки лексики с помощью вайбкодинга на Base44. Платформа включает восемь форматов активностей на каждую тему: флэшкарты, Matching, Квиз, Сортировка, Выбор фразы, Диалог, Погоня в лабиринте и Тайм-атака. Упражнение "Диалог" работает на базе встроенного ИИ-агента, который генерирует персонализированные диалоги из изучаемых слов. Учителя самостоятельно наполняют платформу: создают наборы слов, которые автоматически становятся полноценным "путём навыка" с восемью типами заданий.<br><br>
+                                <strong>Для кого:</strong> Для учителей иностранного языка, которые хотят давать интерактивные задания без лишних инструментов, и для учеников, которые занимаются в собственном темпе — с геймификацией, уровнями прогресса и выбором сложности.<br><br>
+                                <strong>Результат:</strong> Готовый к использованию тренажёр с системой прогрессии, геймифицированными механиками и встроенным ИИ — доступен по ссылке без установки и регистрации.
+                            </div>
+                        </div>
+                        <a href="https://excellent-fluent-path-pro.base44.app/" target="_blank" class="case-link">
+                            Посмотреть платформу
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="case-card reveal">
+                    <div class="case-visual"><span class="case-visual-icon">📅</span></div>
+                    <div class="case-content">
+                        <div class="case-tags"><span class="case-tag">Base44</span><span class="case-tag">Vibe Coding</span><span class="case-tag">Продуктивность</span></div>
+                        <h3 class="case-title">Ничего не горит</h3>
+                        <p class="case-desc">Веб-приложение для отслеживания учебных дедлайнов с дашбордом, календарём, системой приоритетов и двумя ролями.</p>
+                        <div class="case-metrics">
+                            <div class="case-metric"><span class="case-metric-value">4</span><span class="case-metric-label">уровня приоритета</span></div>
+                            <div class="case-metric"><span class="case-metric-value">2</span><span class="case-metric-label">роли</span></div>
+                            <div class="case-metric"><span class="case-metric-value">0</span><span class="case-metric-label">установок</span></div>
+                        </div>
+                        <button class="case-toggle" onclick="toggleCase(this)">Подробнее</button>
+                        <div class="case-details">
+                            <div class="case-details-text">
+                                <strong>Что делала:</strong> Спроектировала и собрала веб-приложение для отслеживания учебных дедлайнов на Base44 с помощью вайбкодинга. Платформа агрегирует задания по всем предметам в одном месте: показывает дашборд с ближайшими и просроченными дедлайнами, поддерживает приоритеты (критический, высокий, средний, низкий), фильтрацию по предметам и группам, а также отдельный календарный вид. Предусмотрены две роли — администратор управляет дедлайнами и группами, студент видит свои задания.<br><br>
+                                <strong>Для кого:</strong> Для студентов учебных программ, у которых много параллельных предметов и заданий — чтобы не терять дедлайны и видеть полную картину нагрузки на неделю вперёд.<br><br>
+                                <strong>Результат:</strong> Работающий трекер с дашбордом, календарём, системой приоритетов и уведомлениями — доступен по ссылке без установки.
+                            </div>
+                        </div>
+                        <a href="https://keen-study-sync-flow.base44.app/Deadlines" target="_blank" class="case-link">
+                            Посмотреть трекер
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="case-card reveal">
+                    <div class="case-visual"><span class="case-visual-icon">✍️</span></div>
+                    <div class="case-content">
+                        <div class="case-tags"><span class="case-tag">HTML/CSS</span><span class="case-tag">Промпт-инжиниринг</span><span class="case-tag">Методика</span></div>
+                        <h3 class="case-title">Конструктор промптов</h3>
+                        <p class="case-desc">Интерактивный HTML-конструктор для создания методически выверенных промптов к академическим текстам.</p>
+                        <div class="case-metrics">
+                            <div class="case-metric"><span class="case-metric-value">3</span><span class="case-metric-label">этапа работы</span></div>
+                            <div class="case-metric"><span class="case-metric-value">0</span><span class="case-metric-label">установок</span></div>
+                            <div class="case-metric"><span class="case-metric-value">∞</span><span class="case-metric-label">дисциплин</span></div>
+                        </div>
+                        <button class="case-toggle" onclick="toggleCase(this)">Подробнее</button>
+                        <div class="case-details">
+                            <div class="case-details-text">
+                                <strong>Что делала:</strong> Разработала интерактивный HTML-конструктор промптов для проведения обучения преподавателей работе с ИИ. Инструмент проводит участника по трём этапам работы с академическим текстом — предтекстовому, текстовому и послетекстовому — и формирует готовый промпт под каждый этап. Конструктор учитывает дисциплину, уровень студентов, нужные умения академического чтения и требования формирующего оценивания. Отдельный модуль генерирует табличные критерии оценки с измеримыми дескрипторами.<br><br>
+                                <strong>Для кого:</strong> Для преподавателей на тренинге или воркшопе по использованию ИИ в учебном процессе — инструмент используется как раздаточный материал, который участники сразу применяют на практике: заполняют пропуски и получают готовый, методически выверенный промпт без необходимости разбираться в промптинге с нуля.<br><br>
+                                <strong>Результат:</strong> Практический инструмент в формате веб-страницы, который работает прямо на обучении: преподаватель заполняет пропуски, нажимает "скопировать" и вставляет промпт в любой ИИ. Без установки, без регистрации, сразу в деле.
+                            </div>
+                        </div>
+                        <a href="https://nellkins-tech.github.io/academicreadingpromts/" target="_blank" class="case-link">
+                            Посмотреть конструктор
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="case-card reveal">
+                    <div class="case-visual"><span class="case-visual-icon">🤖</span></div>
+                    <div class="case-content">
+                        <div class="case-tags"><span class="case-tag">Telegram Bot API</span><span class="case-tag">n8n</span><span class="case-tag">AI-агент</span><span class="case-tag">Автоматизация</span></div>
+                        <h3 class="case-title">Telegram-бот для образовательных мероприятий</h3>
+                        <p class="case-desc">Архитектура и проектная документация на ИИ-автоматизацию полного цикла коммуникации с участниками.</p>
+                        <div class="case-metrics">
+                            <div class="case-metric"><span class="case-metric-value">-77%</span><span class="case-metric-label">трудозатрат</span></div>
+                            <div class="case-metric"><span class="case-metric-value">4331%</span><span class="case-metric-label">ROI</span></div>
+                            <div class="case-metric"><span class="case-metric-value">25→55%</span><span class="case-metric-label">заполняемость</span></div>
+                        </div>
+                        <button class="case-toggle" onclick="toggleCase(this)">Подробнее</button>
+                        <div class="case-details">
+                            <div class="case-details-text">
+                                <strong>Что делала:</strong> Спроектировала архитектуру Telegram-бота для автоматизации полного цикла коммуникации с участниками образовательного мероприятия: от онбординга и напоминаний до сбора обратной связи и рассылки материалов. Разработала три ключевых сценария автоматизации (адаптация участника, сопровождение событий, постпрограммное взаимодействие), модель данных, систему промптов для ИИ-слоя и блок этики и безопасности в соответствии с 152-ФЗ. Стек: Telegram Bot API + n8n + GigaChat API + DeepSeek API.<br><br>
+                                <strong>Для кого:</strong> Заказчик под NDA — краткосрочная интенсивная образовательная программа с аудиторией около 100 участников. Проблема: коммуникация велась вручную, оргкоманда тратила 3-4 часа в день на типовые запросы, заполняемость форм обратной связи не превышала 30%.<br><br>
+                                <strong>Результат:</strong> Готовая проектная документация на ИИ-автоматизацию: архитектура системы, сценарии с n8n-реализацией, модель данных, библиотека промптов и экономическое обоснование. По расчётам проекта: сокращение ручных трудозатрат команды на 77% (с 32 до 7 часов в неделю), рост заполняемости форм обратной связи с 25% до 55%, ускорение ответа на типовые вопросы с 2-24 часов до мгновенного. ROI по экономии трудозатрат — 4 331%.
+                            </div>
+                        </div>
+                        <span class="case-nda">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            Проект под NDA
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="other-section" id="other">
+        <div class="container">
+            <div class="other-card reveal">
+                <div class="other-icon">✨</div>
+                <h3 class="other-title">Ещё больше опыта — за кадром</h3>
+                <p class="other-text">Помимо показанных проектов в моём портфолио есть другие работы: они построены на схожих системах и подходах (промпт-инжиниринг, вайбкодинг, AI-агенты), а часть находится под NDA без возможности публичного размещения. Готова обсудить детали при личной встрече или в рамках собеседования.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">О себе</span>
+                <h2 class="section-title">Обо мне</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text reveal">
+                    <p>Проектирую <strong>AI-инструменты, которые работают</strong>. От методических промптов для преподавателей до автоматизированных ботов с ROI 4331%. Всё — в <strong>соло-разработке</strong>.</p>
+                    <p>Мой подход: не просто использовать AI, а <strong>превращать его в рабочие решения</strong> — платформы, конструкторы, агенты, которые решают реальные задачи учителей, студентов и бизнеса.</p>
+                    <p>Верю, что лучшие продукты рождаются на пересечении <strong>технологий, методики и человечности</strong>. Поэтому мои инструменты не только работают, но и обучают тех, кто их использует.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="contact-card reveal">
+                <div class="contact-icon">📧</div>
+                <h2 class="contact-title">Давайте работать вместе</h2>
+                <p class="contact-text">Открыта к новым проектам в сфере AI, EdTech и автоматизации. Напишите — обсудим, как я могу помочь.</p>
+                <a href="mailto:nailiapeddesign@yandex.ru" class="contact-email">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    nailiapeddesign@yandex.ru
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 Хуснутдинова Наиля Ильдусовна. Сделано с ❤️ и AI.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+        function updateThemeIcon(theme) {
+            document.querySelector('.theme-toggle').textContent = theme === 'dark' ? '🌙' : '☀️';
+        }
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        function toggleCase(btn) {
+            const details = btn.nextElementSibling;
+            details.classList.toggle('open');
+            btn.textContent = details.classList.contains('open') ? 'Свернуть' : 'Подробнее';
+        }
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>
